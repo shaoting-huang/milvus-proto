@@ -139,6 +139,12 @@ service MilvusService {
 
   rpc BackupRBAC(BackupRBACMetaRequest) returns (BackupRBACMetaResponse){}
   rpc RestoreRBAC(RestoreRBACMetaRequest) returns (common.Status){}
+
+  rpc CreatePrivilegeGroup(CreatePrivilegeGroupRequest) returns (common.Status) {}
+  rpc DropPrivilegeGroup(DropPrivilegeGroupRequest) returns (common.Status) {}
+  rpc ListPrivilegeGroups(ListPrivilegeGroupsRequest) returns (ListPrivilegeGroupsResponse) {}
+  rpc AddPrivilegesToGroup(AddPrivilegesToGroupRequest) returns (common.Status) {}
+  rpc DropPrivilegesFromGroup(DropPrivilegesFromGroupRequest) returns (common.Status) {}
 }
 
 message CreateAliasRequest {
@@ -1439,6 +1445,79 @@ message DropRoleRequest {
   string role_name = 2;
   // force to drop the role even if there is permission binding
   bool force_drop = 3;
+}
+
+message PrivilegeGroupEntity {
+  string name = 1;
+}
+
+message CreatePrivilegeGroupRequest {
+  option (common.privilege_ext_obj) = {
+    object_type: Global
+    object_privilege: PrivilegeManageOwnership
+    object_name_index: -1
+  };
+  // Not useful for now
+  common.MsgBase base = 1;
+  // group name
+  PrivilegeGroupEntity group_name = 2;
+  // privileges
+  repeated PrivilegeEntity privileges = 3;
+}
+
+message DropPrivilegeGroupRequest {
+  option (common.privilege_ext_obj) = {
+    object_type: Global
+    object_privilege: PrivilegeManageOwnership
+    object_name_index: -1
+  };
+  // Not useful for now
+  common.MsgBase base = 1;
+  // group name
+  PrivilegeGroupEntity group_name = 2;
+}
+
+message ListPrivilegeGroupsRequest {
+  option (common.privilege_ext_obj) = {
+    object_type: Global
+    object_privilege: PrivilegeManageOwnership
+    object_name_index: -1
+  };
+  // Not useful for now
+  common.MsgBase base = 1;
+}
+
+message ListPrivilegeGroupsResponse {
+  common.Status status = 1;
+  repeated PrivilegeGroupEntity groups = 2;
+}
+
+message AddPrivilegesToGroupRequest {
+  option (common.privilege_ext_obj) = {
+    object_type: Global
+    object_privilege: PrivilegeManageOwnership
+    object_name_index: -1
+  };
+  // Not useful for now
+  common.MsgBase base = 1;
+  // group name
+  PrivilegeGroupEntity group_name = 2;
+  // privileges
+  repeated PrivilegeEntity privileges = 3;
+}
+
+message DropPrivilegesFromGroupRequest {
+  option (common.privilege_ext_obj) = {
+    object_type: Global
+    object_privilege: PrivilegeManageOwnership
+    object_name_index: -1
+  };
+  // Not useful for now
+  common.MsgBase base = 1;
+  // group name
+  PrivilegeGroupEntity group_name = 2;
+  // privileges
+  repeated PrivilegeEntity privileges = 3;
 }
 
 enum OperateUserRoleType {
