@@ -143,8 +143,7 @@ service MilvusService {
   rpc CreatePrivilegeGroup(CreatePrivilegeGroupRequest) returns (common.Status) {}
   rpc DropPrivilegeGroup(DropPrivilegeGroupRequest) returns (common.Status) {}
   rpc ListPrivilegeGroups(ListPrivilegeGroupsRequest) returns (ListPrivilegeGroupsResponse) {}
-  rpc AddPrivilegesToGroup(AddPrivilegesToGroupRequest) returns (common.Status) {}
-  rpc DropPrivilegesFromGroup(DropPrivilegesFromGroupRequest) returns (common.Status) {}
+  rpc OperatePrivilegeGroup(OperatePrivilegeGroupRequest) returns (common.Status) {}
 }
 
 message CreateAliasRequest {
@@ -1457,8 +1456,6 @@ message CreatePrivilegeGroupRequest {
   common.MsgBase base = 1;
   // group name
   string group_name = 2;
-  // privileges
-  repeated PrivilegeEntity privileges = 3;
 }
 
 message DropPrivilegeGroupRequest {
@@ -1488,7 +1485,7 @@ message ListPrivilegeGroupsResponse {
   repeated string groups = 2;
 }
 
-message AddPrivilegesToGroupRequest {
+message OperatePrivilegeGroupRequest {
   option (common.privilege_ext_obj) = {
     object_type: Global
     object_privilege: PrivilegeManageOwnership
@@ -1500,20 +1497,13 @@ message AddPrivilegesToGroupRequest {
   string group_name = 2;
   // privileges
   repeated PrivilegeEntity privileges = 3;
+  // operation type
+  OperatePrivilegeGroupType type = 4;
 }
 
-message DropPrivilegesFromGroupRequest {
-  option (common.privilege_ext_obj) = {
-    object_type: Global
-    object_privilege: PrivilegeManageOwnership
-    object_name_index: -1
-  };
-  // Not useful for now
-  common.MsgBase base = 1;
-  // group name
-  string group_name = 2;
-  // privileges
-  repeated PrivilegeEntity privileges = 3;
+enum OperatePrivilegeGroupType {
+  AddPrivilegesToGroup = 0;
+  RemovePrivilegesFromGroup = 1;
 }
 
 enum OperateUserRoleType {
