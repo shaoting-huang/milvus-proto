@@ -74,10 +74,10 @@ enum ErrorCode {
     // Coord is switching from standby mode to active mode
     NotReadyCoordActivating = 57;
     CreatePrivilegeGroupFailure = 58;
-	DropPrivilegeGroupFailure = 59;
-	ListPrivilegeGroupsFailure = 60;
-	AddPrivilegesToGroupFailure = 61;
-	DropPrivilegesFromGroupFailure = 62;
+    DropPrivilegeGroupFailure = 59;
+    ListPrivilegeGroupsFailure = 60;
+    AddPrivilegesToGroupFailure = 61;
+    DropPrivilegesFromGroupFailure = 62;
 
     // Service availability.
     // NA: Not Available.
@@ -428,8 +428,7 @@ enum ObjectPrivilege {
     PrivilegeGroupReadOnly = 53;
     PrivilegeGroupReadWrite = 54;
     PrivilegeGroupAdmin = 55;
-    PrivilegeGroupCustomized = 56;
-    PrivilegeGroupManageOwnership = 57;
+    PrivilegeGroupManagement = 56;
 }
 
 message PrivilegeExt {
